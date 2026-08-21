@@ -1,0 +1,952 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <base target="_top">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jadwal Taklim — DPD Wahdah Islamiyah Makassar</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --emerald: #123A5C;
+      --emerald-dark: #0A2A44;
+      --emerald-light: #1C5A87;
+      --gold: #C9A227;
+      --gold-soft: #F1E4B8;
+      --sand: #FAF6EC;
+      --ink: #1C2B22;
+      --ink-soft: #5B6B60;
+      --sage: #DCE7DD;
+      --clay: #A8492F;
+      --white: #FFFFFF;
+      --radius: 14px;
+      --shadow: 0 10px 30px rgba(15, 81, 50, 0.08);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: var(--sand);
+      color: var(--ink);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    h1, h2, h3, .display {
+      font-family: 'Amiri', serif;
+    }
+
+    /* ================= HEADER ================= */
+    header.top {
+      background: linear-gradient(135deg, var(--emerald-dark), var(--emerald));
+      color: var(--white);
+      padding: 36px 24px 0;
+      position: relative;
+      text-align: center;
+    }
+
+    .brand-eyebrow {
+      letter-spacing: 3px;
+      font-size: 11px;
+      text-transform: uppercase;
+      color: var(--gold-soft);
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    header.top h1 {
+      font-size: clamp(24px, 4vw, 36px);
+      margin: 0 0 6px;
+      font-weight: 700;
+    }
+
+    header.top p {
+      margin: 0 0 28px;
+      color: rgba(255,255,255,0.82);
+      font-size: 14.5px;
+    }
+
+    .arch-divider {
+      display: block;
+      width: 100%;
+      height: 34px;
+    }
+
+    /* ================= LAYOUT ================= */
+    main {
+      max-width: 1120px;
+      margin: -2px auto 60px;
+      padding: 0 20px;
+    }
+
+    .panel {
+      animation: fadeIn 0.35s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ================= CARD ================= */
+    .card {
+      background: var(--white);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 28px;
+      margin-bottom: 20px;
+    }
+
+    .section-title {
+      font-size: 12px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gold);
+      font-weight: 800;
+      margin: 0 0 4px;
+    }
+
+    .section-heading {
+      font-size: 19px;
+      margin: 0 0 18px;
+      color: var(--emerald-dark);
+      font-weight: 700;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--sage);
+    }
+
+    /* ================= DASHBOARD ================= */
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+    @media (max-width: 720px) {
+      .stats-row { grid-template-columns: repeat(1, 1fr); }
+    }
+
+    .stat-card {
+      background: var(--white);
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+      padding: 18px;
+      border-top: 3px solid var(--gold);
+    }
+    .stat-card .num { font-size: 26px; font-weight: 800; color: var(--emerald-dark); font-family: 'Amiri', serif; }
+    .stat-card .lbl { font-size: 12px; color: var(--ink-soft); font-weight: 600; margin-top: 2px; }
+
+    .toolbar {
+      display: flex; gap: 10px; align-items: center;
+      margin-bottom: 12px; flex-wrap: wrap;
+    }
+    .search-box {
+      flex: 1; min-width: 200px;
+      padding: 11px 14px;
+      border: 1.5px solid var(--sage);
+      border-radius: 10px;
+      font-size: 14px;
+      font-family: inherit;
+      background: var(--sand);
+    }
+    .filter-select {
+      flex: 0 0 190px;
+      padding: 11px 14px;
+      border: 1.5px solid var(--sage);
+      border-radius: 10px;
+      font-size: 14px;
+      font-family: inherit;
+      background: var(--sand);
+      color: var(--ink);
+      cursor: pointer;
+    }
+    @media (max-width: 720px) {
+      .filter-select { flex: 1 1 45%; }
+    }
+
+    .kota-select {
+      flex: 0 0 190px;
+      padding: 11px 14px;
+      border: 1.5px solid var(--emerald);
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 700;
+      font-family: inherit;
+      background: var(--emerald);
+      color: var(--white);
+      cursor: pointer;
+    }
+    .kota-select option {
+      background: var(--white);
+      color: var(--ink);
+      font-weight: 600;
+    }
+    @media (max-width: 720px) {
+      .kota-select { flex: 1 1 100%; }
+    }
+
+    /* ================= CUSTOM DROPDOWN (pengganti <select> native) ================= */
+    .custom-select {
+      position: relative;
+    }
+    .custom-select.filter-variant {
+      flex: 0 0 190px;
+    }
+    .custom-select.kota-variant {
+      flex: 0 0 190px;
+    }
+    .cs-btn {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding: 11px 14px;
+      border: 1.5px solid var(--sage);
+      border-radius: 10px;
+      font-size: 14px;
+      font-family: inherit;
+      background: var(--sand);
+      color: var(--ink);
+      cursor: pointer;
+      text-align: left;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .cs-btn .cs-caret {
+      flex: 0 0 auto;
+      font-size: 10px;
+      color: var(--ink-soft);
+      transition: transform 0.15s ease;
+    }
+    .custom-select.open .cs-btn .cs-caret {
+      transform: rotate(180deg);
+    }
+    .custom-select.kota-variant .cs-btn {
+      border: 1.5px solid var(--emerald);
+      background: var(--emerald);
+      color: var(--white);
+      font-weight: 700;
+    }
+    .custom-select.kota-variant .cs-btn .cs-caret {
+      color: var(--gold-soft);
+    }
+    .cs-menu {
+      display: none;
+      position: absolute;
+      top: calc(100% + 6px);
+      left: 0;
+      right: 0;
+      max-height: 260px;
+      overflow-y: auto;
+      background: var(--white);
+      border: 1.5px solid var(--sage);
+      border-radius: 10px;
+      box-shadow: 0 12px 28px rgba(15, 40, 30, 0.16);
+      z-index: 50;
+      padding: 6px;
+    }
+    .custom-select.open .cs-menu {
+      display: block;
+    }
+    .cs-option {
+      padding: 10px 12px;
+      border-radius: 8px;
+      font-size: 13.5px;
+      font-weight: 600;
+      color: var(--ink);
+      cursor: pointer;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .cs-option:hover {
+      background: var(--gold-soft);
+    }
+    .cs-option.selected {
+      background: var(--sage);
+      color: var(--emerald-dark);
+    }
+    @media (max-width: 720px) {
+      .custom-select.filter-variant { flex: 1 1 45%; }
+      .custom-select.kota-variant { flex: 1 1 100%; }
+    }
+    .refresh-btn {
+      background: var(--white);
+      border: 1.5px solid var(--emerald);
+      color: var(--emerald);
+      padding: 10px 18px;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 13.5px;
+      cursor: pointer;
+      font-family: inherit;
+      white-space: nowrap;
+    }
+    .refresh-btn:hover { background: var(--emerald); color: var(--white); }
+
+    /* ================= INFO HASIL PENCARIAN ================= */
+    .result-info {
+      font-size: 13px;
+      color: var(--emerald-dark);
+      background: var(--gold-soft);
+      border-radius: 10px;
+      padding: 9px 14px;
+      margin-bottom: 16px;
+      font-weight: 600;
+    }
+    .result-info strong {
+      font-weight: 800;
+    }
+    .result-info .query-term {
+      color: var(--clay);
+    }
+
+    /* ============== SCROLLBAR ATAS (mirror) ============== */
+    .scroll-top-wrap {
+      overflow-x: auto;
+      overflow-y: hidden;
+      height: 16px;
+      margin-bottom: 8px;
+      display: none;
+    }
+    .scroll-top-dummy {
+      height: 1px;
+    }
+    .scroll-top-wrap::-webkit-scrollbar,
+    .table-wrap::-webkit-scrollbar {
+      height: 9px;
+    }
+    .scroll-top-wrap::-webkit-scrollbar-track,
+    .table-wrap::-webkit-scrollbar-track {
+      background: var(--sage);
+      border-radius: 10px;
+    }
+    .scroll-top-wrap::-webkit-scrollbar-thumb,
+    .table-wrap::-webkit-scrollbar-thumb {
+      background: var(--emerald);
+      border-radius: 10px;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+      border-radius: 12px;
+      border: 1px solid var(--sage);
+    }
+    table { width: 100%; border-collapse: collapse; font-size: 13.5px; min-width: 1000px; }
+    thead th {
+      background: var(--emerald);
+      color: var(--white);
+      text-align: left;
+      padding: 12px 14px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+    tbody td {
+      padding: 11px 14px;
+      border-bottom: 1px solid var(--sage);
+      color: var(--ink);
+      vertical-align: top;
+    }
+    tbody tr:nth-child(even) { background: #FBFAF5; }
+    tbody tr:hover { background: var(--gold-soft); }
+
+    .badge {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 11.5px;
+      font-weight: 700;
+      background: #E3F1E9;
+      color: var(--emerald-dark);
+      white-space: nowrap;
+    }
+
+    .del-btn {
+      background: none;
+      border: 1px solid var(--clay);
+      color: var(--clay);
+      border-radius: 8px;
+      padding: 5px 10px;
+      font-size: 12px;
+      cursor: pointer;
+      font-weight: 700;
+      font-family: inherit;
+      white-space: nowrap;
+    }
+    .del-btn:hover { background: var(--clay); color: var(--white); }
+
+    .empty-state {
+      text-align: center;
+      padding: 50px 20px;
+      color: var(--ink-soft);
+    }
+    .empty-state .icon { font-size: 34px; margin-bottom: 10px; }
+
+    .info-note {
+      font-size: 12.5px;
+      color: var(--ink-soft);
+      background: var(--sage);
+      border-radius: 10px;
+      padding: 10px 14px;
+      margin-bottom: 16px;
+    }
+
+    /* ================= PAGINATION ================= */
+    .pagination-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 20px 4px 4px;
+      flex-wrap: wrap;
+      border-top: 1px solid var(--sage);
+      margin-top: 16px;
+    }
+    .page-btn {
+      min-width: 40px;
+      height: 40px;
+      padding: 0 12px;
+      border-radius: 10px;
+      border: 1.5px solid var(--sage);
+      background: var(--white);
+      color: var(--ink);
+      font-weight: 700;
+      font-size: 14px;
+      font-family: inherit;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+    }
+    .page-btn:hover:not(:disabled):not(.active) {
+      border-color: var(--emerald);
+      color: var(--emerald-dark);
+      background: var(--gold-soft);
+    }
+    .page-btn.active {
+      background: var(--emerald-dark);
+      border-color: var(--emerald-dark);
+      color: var(--white);
+    }
+    .page-btn:disabled {
+      color: #C7CFC9;
+      border-color: var(--sage);
+      cursor: not-allowed;
+      background: var(--white);
+    }
+    .page-btn.nav-btn {
+      font-size: 16px;
+      color: var(--ink-soft);
+    }
+    .page-ellipsis {
+      min-width: 24px;
+      text-align: center;
+      color: var(--ink-soft);
+      font-weight: 700;
+    }
+
+    footer {
+      text-align: center;
+      color: var(--ink-soft);
+      font-size: 12.5px;
+      padding-bottom: 30px;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="top">
+    <div class="brand-eyebrow">DPD Wahdah Islamiyah Makassar</div>
+    <h1>Jadwal Taklim DPD Wahdah Islamiyah Makassar</h1>
+    <p>Rekap jadwal taklim wilayah Makassar, Gowa &amp; Maros</p>
+    <svg class="arch-divider" viewBox="0 0 120 34" preserveAspectRatio="none">
+      <defs>
+        <pattern id="archPattern" width="40" height="34" patternUnits="userSpaceOnUse">
+          <path d="M0,34 L0,17 A20,17 0 0,1 40,17 L40,34 Z" fill="#FAF6EC"/>
+        </pattern>
+      </defs>
+      <rect width="100%" height="100%" fill="url(#archPattern)"/>
+    </svg>
+  </header>
+
+  <main>
+    <div id="panelsContainer"></div>
+  </main>
+
+  <footer>© Departemen Dakwah DPD Wahdah Islamiyah Makassar - Sistem Jadwal Taklim</footer>
+
+  <script>
+    /* =====================================================================
+     *  GANTI URL DI BAWAH INI dengan URL Web App hasil deploy Code.gs
+     *  (Deploy > New deployment > Web app > Execute as: Me,
+     *   Who has access: Anyone > pakai URL yang diakhiri "/exec")
+     * ===================================================================== */
+    const API_URL = 'https://script.google.com/macros/s/AKfycbztdgqqBExOsAhIDfqAjCQmoxhFsY368v5mZ9uhXHwvsiID4QC1K8DldH9Dx4SG9fZm/exec';
+
+    // ================= KONFIGURASI KOTA (harus sinkron dengan Code.gs) =================
+    const KOTA_LIST = ['Makassar', 'Gowa', 'Maros'];
+
+    // ================= KONFIGURASI PAGINATION =================
+    const PAGE_SIZE = 100;
+    let currentPage = 1;
+
+    let kecamatanByKota = {};   // diisi dari server
+    let currentKota = '';       // '' = Semua Kota (default tampilan awal)
+    let currentData = [];       // cache data jadwal untuk kota aktif
+
+    /* ================= HELPER: PANGGIL API APPS SCRIPT ================= */
+    function callApi(action, params) {
+      const query = new URLSearchParams(Object.assign({ action: action }, params || {}));
+      return fetch(API_URL + '?' + query.toString())
+        .then(function (res) {
+          if (!res.ok) throw new Error('HTTP ' + res.status);
+          return res.json();
+        })
+        .then(function (data) {
+          if (data && data.error) throw new Error(data.message || 'Terjadi kesalahan pada server.');
+          return data;
+        });
+    }
+
+    function labelKota(kota) {
+      return kota ? kota : 'Semua Kota';
+    }
+
+    /* ================= BANGUN PANEL (statis, satu kali) ================= */
+    function buildPanel() {
+      const panelsContainer = document.getElementById('panelsContainer');
+
+      panelsContainer.innerHTML =
+        '<div class="stats-row">' +
+          '<div class="stat-card"><div class="num" id="statTotal">–</div><div class="lbl">Total Jadwal Taklim</div></div>' +
+          '<div class="stat-card"><div class="num" id="statKecamatan">–</div><div class="lbl">Kecamatan Terjadwal</div></div>' +
+          '<div class="stat-card"><div class="num" id="statPemateri">–</div><div class="lbl">Jumlah Pemateri</div></div>' +
+        '</div>' +
+        '<div class="card">' +
+          '<div class="section-title" id="sectionTitleKota">Rekap · ' + labelKota(currentKota) + '</div>' +
+          '<h2 class="section-heading" id="sectionHeadingKota">Daftar Jadwal Taklim — ' + labelKota(currentKota) + '</h2>' +
+          '<div class="toolbar">' +
+            '<input type="text" class="search-box" id="searchBox" placeholder="Cari pemateri, materi, tempat, atau hari..." oninput="onSearchInput()">' +
+            '<div class="custom-select kota-variant" id="filterKotaWrap">' +
+              '<button type="button" class="cs-btn" id="filterKotaBtn" onclick="toggleDropdown(\'filterKota\', event)">' +
+                '<span id="filterKotaLabel">Semua Kota</span><span class="cs-caret">▼</span>' +
+              '</button>' +
+              '<div class="cs-menu" id="filterKotaMenu"></div>' +
+            '</div>' +
+            '<div class="custom-select filter-variant" id="filterKecamatanWrap">' +
+              '<button type="button" class="cs-btn" id="filterKecamatanBtn" onclick="toggleDropdown(\'filterKecamatan\', event)">' +
+                '<span id="filterKecamatanLabel">Semua Kecamatan</span><span class="cs-caret">▼</span>' +
+              '</button>' +
+              '<div class="cs-menu" id="filterKecamatanMenu"></div>' +
+            '</div>' +
+            '<div class="custom-select filter-variant" id="filterStatusWrap">' +
+              '<button type="button" class="cs-btn" id="filterStatusBtn" onclick="toggleDropdown(\'filterStatus\', event)">' +
+                '<span id="filterStatusLabel">Semua Status</span><span class="cs-caret">▼</span>' +
+              '</button>' +
+              '<div class="cs-menu" id="filterStatusMenu"></div>' +
+            '</div>' +
+            '<button class="refresh-btn" onclick="loadDashboard()">⟳ Muat Ulang</button>' +
+          '</div>' +
+          '<div class="result-info" id="resultInfo"></div>' +
+          '<div class="scroll-top-wrap" id="scrollTopWrap">' +
+            '<div class="scroll-top-dummy" id="scrollTopDummy"></div>' +
+          '</div>' +
+          '<div id="tableContainer">' +
+            '<div class="empty-state"><div class="icon">⏳</div>Memuat data...</div>' +
+          '</div>' +
+          '<div class="pagination-wrap" id="paginationWrap"></div>' +
+        '</div>';
+
+      buildDropdownOptions('filterKota', [{ value: '', label: 'Semua Kota' }].concat(
+        KOTA_LIST.map(function (k) { return { value: k, label: k }; })
+      ), '');
+    }
+
+    /* ================= DROPDOWN CUSTOM: STATE & HELPER ================= */
+    const dropdownState = { filterKota: '', filterKecamatan: '', filterStatus: '' };
+
+    function toggleDropdown(id, evt) {
+      if (evt) evt.stopPropagation();
+      const wrap = document.getElementById(id + 'Wrap');
+      const isOpen = wrap.classList.contains('open');
+      closeAllDropdowns();
+      if (!isOpen) wrap.classList.add('open');
+    }
+
+    function closeAllDropdowns() {
+      ['filterKota', 'filterKecamatan', 'filterStatus'].forEach(function (id) {
+        const wrap = document.getElementById(id + 'Wrap');
+        if (wrap) wrap.classList.remove('open');
+      });
+    }
+
+    document.addEventListener('click', function () {
+      closeAllDropdowns();
+    });
+
+    function buildDropdownOptions(id, items, selectedValue) {
+      dropdownState[id] = selectedValue || '';
+      const menu = document.getElementById(id + 'Menu');
+      const label = document.getElementById(id + 'Label');
+
+      let html = '';
+      let selectedLabel = items.length ? items[0].label : '';
+      items.forEach(function (item) {
+        const isSelected = item.value === dropdownState[id];
+        if (isSelected) selectedLabel = item.label;
+        html += '<div class="cs-option' + (isSelected ? ' selected' : '') +
+          '" data-value="' + esc(item.value) + '" onclick="selectDropdownOption(\'' + id + '\', event)">' +
+          esc(item.label) + '</div>';
+      });
+      menu.innerHTML = html;
+      if (label) label.textContent = selectedLabel;
+    }
+
+    function selectDropdownOption(id, evt) {
+      evt.stopPropagation();
+      const value = evt.currentTarget.getAttribute('data-value');
+      const text = evt.currentTarget.textContent;
+      dropdownState[id] = value;
+      const label = document.getElementById(id + 'Label');
+      if (label) label.textContent = text;
+
+      const menu = document.getElementById(id + 'Menu');
+      Array.prototype.forEach.call(menu.querySelectorAll('.cs-option'), function (opt) {
+        opt.classList.toggle('selected', opt.getAttribute('data-value') === value);
+      });
+
+      closeAllDropdowns();
+
+      if (id === 'filterKota') {
+        onKotaChange();
+      } else {
+        currentPage = 1;
+        renderTable();
+      }
+    }
+
+    /* ================= SAAT PENCARIAN DIKETIK ================= */
+    function onSearchInput() {
+      currentPage = 1;
+      renderTable();
+    }
+
+    /* ================= SAAT KOTA DIGANTI DI DROPDOWN ================= */
+    function onKotaChange() {
+      currentKota = dropdownState.filterKota;
+      document.getElementById('sectionTitleKota').textContent = 'Rekap · ' + labelKota(currentKota);
+      document.getElementById('sectionHeadingKota').textContent = 'Daftar Jadwal Taklim — ' + labelKota(currentKota);
+      populateKecamatanDropdown();
+      document.getElementById('searchBox').value = '';
+      currentPage = 1;
+      loadDashboard();
+    }
+
+    function esc(val) {
+      if (val === undefined || val === null) return '';
+      const div = document.createElement('div');
+      div.textContent = val;
+      return div.innerHTML;
+    }
+
+    /* ============== SINKRONISASI SCROLLBAR ATAS <-> BAWAH ============== */
+    function syncTopScroll() {
+      const container = document.getElementById('tableContainer');
+      const topWrap = document.getElementById('scrollTopWrap');
+      const topDummy = document.getElementById('scrollTopDummy');
+      const tableWrap = container.querySelector('.table-wrap');
+
+      if (!tableWrap) {
+        topWrap.style.display = 'none';
+        return;
+      }
+
+      const table = tableWrap.querySelector('table');
+      topDummy.style.width = table.scrollWidth + 'px';
+      topWrap.style.display = table.scrollWidth > tableWrap.clientWidth ? 'block' : 'none';
+
+      let isSyncing = false;
+      topWrap.onscroll = function () {
+        if (isSyncing) { isSyncing = false; return; }
+        isSyncing = true;
+        tableWrap.scrollLeft = topWrap.scrollLeft;
+      };
+      tableWrap.onscroll = function () {
+        if (isSyncing) { isSyncing = false; return; }
+        isSyncing = true;
+        topWrap.scrollLeft = tableWrap.scrollLeft;
+      };
+    }
+
+    /* ================= ISI DROPDOWN KECAMATAN (statis, sesuai kota aktif) ================= */
+    function populateKecamatanDropdown() {
+      let list;
+
+      if (!currentKota) {
+        const merged = {};
+        KOTA_LIST.forEach(function (kota) {
+          (kecamatanByKota[kota] || []).forEach(function (kec) { merged[kec] = true; });
+        });
+        list = Object.keys(merged).sort();
+      } else {
+        list = kecamatanByKota[currentKota] || [];
+      }
+
+      const items = [{ value: '', label: 'Semua Kecamatan' }].concat(
+        list.map(function (kec) { return { value: kec, label: kec }; })
+      );
+      buildDropdownOptions('filterKecamatan', items, '');
+    }
+
+    /* ================= ISI DROPDOWN STATUS (dinamis dari data kota aktif) ================= */
+    function populateStatusDropdown(data) {
+      const currentVal = dropdownState.filterStatus;
+      const statusSet = {};
+      data.forEach(function (row) {
+        const status = (row['STATUS'] || '').toString().trim();
+        if (status) statusSet[status] = true;
+      });
+
+      const statusList = Object.keys(statusSet).sort();
+      const items = [{ value: '', label: 'Semua Status' }].concat(
+        statusList.map(function (s) { return { value: s, label: s }; })
+      );
+
+      const keepValue = statusList.indexOf(currentVal) > -1 ? currentVal : '';
+      buildDropdownOptions('filterStatus', items, keepValue);
+    }
+
+    /* ================= LOAD DASHBOARD (stats + data) UNTUK KOTA AKTIF ================= */
+    function loadDashboard() {
+      document.getElementById('tableContainer').innerHTML = '<div class="empty-state"><div class="icon">⏳</div>Memuat data...</div>';
+      document.getElementById('scrollTopWrap').style.display = 'none';
+      document.getElementById('resultInfo').innerHTML = '';
+      document.getElementById('paginationWrap').innerHTML = '';
+
+      callApi('getDashboardStats', { kota: currentKota })
+        .then(function (stats) {
+          document.getElementById('statTotal').textContent = stats.total;
+          document.getElementById('statKecamatan').textContent = stats.totalKecamatan;
+          document.getElementById('statPemateri').textContent = stats.totalPemateri;
+        })
+        .catch(function (err) {
+          console.error('Gagal memuat statistik:', err.message);
+        });
+
+      callApi('getAllJadwalData', { kota: currentKota })
+        .then(function (data) {
+          currentData = data;
+          currentPage = 1;
+          populateStatusDropdown(data);
+          renderTable();
+        })
+        .catch(function (err) {
+          document.getElementById('tableContainer').innerHTML =
+            '<div class="empty-state"><div class="icon">⚠️</div>Gagal memuat data: ' + esc(err.message) + '</div>';
+        });
+    }
+
+    /* ================= HAPUS BARIS (jika dipakai di masa depan) ================= */
+    function deleteRow(rowIndex) {
+      if (!confirm('Yakin ingin menghapus jadwal ini?')) return;
+      callApi('deleteJadwalRow', { rowIndex: rowIndex })
+        .then(function (res) {
+          if (res.success) {
+            loadDashboard();
+          } else {
+            alert('Gagal menghapus: ' + (res.message || 'tidak diketahui'));
+          }
+        })
+        .catch(function (err) {
+          alert('Gagal menghapus: ' + err.message);
+        });
+    }
+
+    /* ================= RENDER INFO HASIL PENCARIAN/FILTER ================= */
+    function renderResultInfo(filteredCount, totalCount, term, kecFilter, statusFilter, pageStart, pageEnd) {
+      const infoBox = document.getElementById('resultInfo');
+      const hasFilter = !!(term || kecFilter || statusFilter);
+
+      let rangeText = filteredCount > 0
+        ? 'baris <strong>' + pageStart + '–' + pageEnd + '</strong> dari <strong>' + filteredCount + '</strong>'
+        : '<strong>0</strong>';
+
+      if (!hasFilter) {
+        infoBox.innerHTML = 'Menampilkan ' + rangeText + ' data (total keseluruhan: ' + totalCount + ').';
+        return;
+      }
+
+      let extra = [];
+      if (term) extra.push('kata kunci "<span class="query-term">' + esc(term) + '</span>"');
+      if (kecFilter) extra.push('kecamatan "<span class="query-term">' + esc(kecFilter) + '</span>"');
+      if (statusFilter) extra.push('status "<span class="query-term">' + esc(statusFilter) + '</span>"');
+
+      infoBox.innerHTML =
+        'Menampilkan ' + rangeText + ' data untuk pencarian ' + extra.join(', ') + '.';
+    }
+
+    /* ================= RENDER TABEL (search + filter + pagination) UNTUK KOTA AKTIF ================= */
+    function renderTable() {
+      const term = (document.getElementById('searchBox').value || '').trim();
+      const termLower = term.toLowerCase();
+      const kecFilter = dropdownState.filterKecamatan;
+      const statusFilter = dropdownState.filterStatus;
+      const data = currentData || [];
+
+      const filtered = data.filter(function (row) {
+        const matchesSearch =
+          (row['PEMATERI'] || '').toString().toLowerCase().indexOf(termLower) > -1 ||
+          (row['MATERI'] || '').toString().toLowerCase().indexOf(termLower) > -1 ||
+          (row['TEMPAT'] || '').toString().toLowerCase().indexOf(termLower) > -1 ||
+          (row['HARI'] || '').toString().toLowerCase().indexOf(termLower) > -1;
+
+        const matchesKec = !kecFilter || (row['KECAMATAN'] || '').toString() === kecFilter;
+        const matchesStatus = !statusFilter || (row['STATUS'] || '').toString() === statusFilter;
+
+        return matchesSearch && matchesKec && matchesStatus;
+      });
+
+      // ===== PAGINATION: hitung total halaman & clamp currentPage =====
+      const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
+      if (currentPage > totalPages) currentPage = totalPages;
+      if (currentPage < 1) currentPage = 1;
+
+      const startIdx = (currentPage - 1) * PAGE_SIZE;
+      const pageData = filtered.slice(startIdx, startIdx + PAGE_SIZE);
+      const pageStart = filtered.length === 0 ? 0 : startIdx + 1;
+      const pageEnd = Math.min(startIdx + PAGE_SIZE, filtered.length);
+
+      renderResultInfo(filtered.length, data.length, term, kecFilter, statusFilter, pageStart, pageEnd);
+
+      const container = document.getElementById('tableContainer');
+      const paginationWrap = document.getElementById('paginationWrap');
+
+      if (filtered.length === 0) {
+        container.innerHTML = '<div class="empty-state"><div class="icon">📭</div>Belum ada jadwal taklim yang cocok.</div>';
+        document.getElementById('scrollTopWrap').style.display = 'none';
+        paginationWrap.innerHTML = '';
+        return;
+      }
+
+      let rows = '';
+      pageData.forEach(function (row) {
+        rows += '<tr>' +
+          '<td>' + esc(row['PEMATERI']) + '</td>' +
+          '<td>' + esc(row['MATERI']) + '</td>' +
+          '<td>' + esc(row['TEMPAT']) + '</td>' +
+          '<td>' + esc(row['HARI']) + '</td>' +
+          '<td>' + esc(row['WAKTU']) + '</td>' +
+          '<td>' + esc(row['KETERANGAN']) + '</td>' +
+          '<td>' + esc(row['KOTA']) + '</td>' +
+          '<td>' + esc(row['KECAMATAN']) + '</td>' +
+          '<td>' + (row['STATUS'] ? '<span class="badge">' + esc(row['STATUS']) + '</span>' : '') + '</td>' +
+          '</tr>';
+      });
+
+      container.innerHTML =
+        '<div class="table-wrap"><table><thead><tr>' +
+        '<th>Pemateri</th><th>Materi</th><th>Tempat</th><th>Hari</th>' +
+        '<th>Waktu</th><th>Keterangan</th><th>Kota</th><th>Kecamatan</th><th>Status</th>' +
+        '</tr></thead><tbody>' + rows + '</tbody></table></div>';
+
+      syncTopScroll();
+      renderPagination(totalPages);
+    }
+
+    /* ================= BANGUN KONTROL PAGINATION (seperti contoh gambar) ================= */
+    function renderPagination(totalPages) {
+      const wrap = document.getElementById('paginationWrap');
+      if (!wrap) return;
+
+      if (totalPages <= 1) {
+        wrap.innerHTML = '';
+        return;
+      }
+
+      let html = '';
+
+      html += '<button type="button" class="page-btn nav-btn" ' +
+        (currentPage === 1 ? 'disabled' : '') +
+        ' onclick="goToPage(' + (currentPage - 1) + ')" aria-label="Halaman sebelumnya">&#8249;</button>';
+
+      getPageNumbers(currentPage, totalPages).forEach(function (p) {
+        if (p === '...') {
+          html += '<span class="page-ellipsis">…</span>';
+        } else {
+          html += '<button type="button" class="page-btn' + (p === currentPage ? ' active' : '') +
+            '" onclick="goToPage(' + p + ')">' + p + '</button>';
+        }
+      });
+
+      html += '<button type="button" class="page-btn nav-btn" ' +
+        (currentPage === totalPages ? 'disabled' : '') +
+        ' onclick="goToPage(' + (currentPage + 1) + ')" aria-label="Halaman berikutnya">&#8250;</button>';
+
+      wrap.innerHTML = html;
+    }
+
+    /* Menghasilkan daftar nomor halaman dengan elipsis, mis: 1 2 3 4 5 ... 12 */
+    function getPageNumbers(current, total) {
+      const delta = 2;
+      const range = [];
+      const rangeWithDots = [];
+      let last;
+
+      for (let i = 1; i <= total; i++) {
+        if (i === 1 || i === total || (i >= current - delta && i <= current + delta)) {
+          range.push(i);
+        }
+      }
+
+      range.forEach(function (i) {
+        if (last) {
+          if (i - last === 2) {
+            rangeWithDots.push(last + 1);
+          } else if (i - last > 2) {
+            rangeWithDots.push('...');
+          }
+        }
+        rangeWithDots.push(i);
+        last = i;
+      });
+
+      return rangeWithDots;
+    }
+
+    /* Pindah ke halaman tertentu lalu render ulang tabel */
+    function goToPage(p) {
+      currentPage = p;
+      renderTable();
+      const tableContainer = document.getElementById('tableContainer');
+      if (tableContainer) tableContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    /* ================= INISIALISASI HALAMAN ================= */
+    function initApp() {
+      buildPanel();
+
+      if (!API_URL || API_URL.indexOf('PASTE_URL_WEB_APP') > -1) {
+        document.getElementById('tableContainer').innerHTML =
+          '<div class="empty-state"><div class="icon">⚠️</div>API_URL belum diisi. Buka index.html, ganti nilai API_URL dengan URL Web App Apps Script kamu.</div>';
+        return;
+      }
+
+      callApi('getKecamatanByKota')
+        .then(function (result) {
+          kecamatanByKota = result;
+          populateKecamatanDropdown();
+          loadDashboard();
+        })
+        .catch(function (err) {
+          document.getElementById('tableContainer').innerHTML =
+            '<div class="empty-state"><div class="icon">⚠️</div>Gagal memuat daftar kecamatan: ' + esc(err.message) + '</div>';
+        });
+    }
+
+    initApp();
+  </script>
+</body>
+</html>
