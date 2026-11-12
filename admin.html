@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="robots" content="noindex, nofollow">
-  <title>Admin — Input Jadwal Taklim</title>
+  <title>Admin — Jadwal Taklim</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
@@ -48,7 +48,7 @@
     header.top p { margin: 0 0 28px; color: rgba(255,255,255,0.82); font-size: 14.5px; }
     .arch-divider { display: block; width: 100%; height: 34px; }
 
-    main { max-width: 820px; margin: -2px auto 60px; padding: 0 20px; }
+    main { max-width: 1120px; margin: -2px auto 60px; padding: 0 20px; }
 
     .card {
       background: var(--white);
@@ -57,6 +57,7 @@
       padding: 28px;
       margin-bottom: 20px;
     }
+    .card.narrow { max-width: 820px; margin-left: auto; margin-right: auto; }
     .section-title {
       font-size: 12px; letter-spacing: 2px; text-transform: uppercase;
       color: var(--gold); font-weight: 800; margin: 0 0 4px;
@@ -73,21 +74,29 @@
     .link-btn {
       color: var(--emerald); font-weight: 700; font-size: 13.5px; text-decoration: none;
       border: 1.5px solid var(--emerald); padding: 9px 16px; border-radius: 10px; background: var(--white);
+      cursor: pointer; font-family: inherit;
     }
     .link-btn:hover { background: var(--emerald); color: var(--white); }
 
-    .form-grid {
-      display: grid; grid-template-columns: 1fr 1fr; gap: 16px 18px;
+    /* ===== Tabs ===== */
+    .tabs { display: flex; gap: 8px; margin-bottom: 18px; flex-wrap: wrap; }
+    .tab-btn {
+      padding: 11px 20px; border-radius: 10px; border: 1.5px solid var(--sage);
+      background: var(--white); color: var(--ink-soft); font-weight: 700; font-size: 14px;
+      font-family: inherit; cursor: pointer;
     }
+    .tab-btn:hover { border-color: var(--emerald); color: var(--emerald-dark); }
+    .tab-btn.active { background: var(--emerald-dark); border-color: var(--emerald-dark); color: var(--white); }
+
+    /* ===== Form ===== */
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px 18px; }
     .full { grid-column: 1 / -1; }
     @media (max-width: 640px) {
       .form-grid { grid-template-columns: 1fr; }
       .card { padding: 20px; }
     }
-
     label {
-      display: block; font-size: 12.5px; font-weight: 700; color: var(--emerald-dark);
-      margin-bottom: 6px;
+      display: block; font-size: 12.5px; font-weight: 700; color: var(--emerald-dark); margin-bottom: 6px;
     }
     label .req { color: var(--clay); }
     label .hint { font-weight: 500; color: var(--ink-soft); }
@@ -109,9 +118,11 @@
     }
     select:disabled { opacity: 0.6; cursor: not-allowed; }
 
-    .pin-box {
-      background: var(--gold-soft); border-radius: 12px; padding: 16px; margin-bottom: 20px;
+    .edit-banner {
+      display: none; background: var(--gold-soft); color: var(--emerald-dark);
+      border-radius: 10px; padding: 11px 16px; font-size: 13.5px; font-weight: 700; margin-bottom: 18px;
     }
+    .edit-banner.show { display: block; }
 
     .actions { display: flex; gap: 10px; margin-top: 22px; flex-wrap: wrap; }
     .btn-primary {
@@ -136,24 +147,71 @@
     .alert.success { background: #E3F1E9; color: var(--ok); border: 1px solid #BFE0CC; }
     .alert.error { background: #FBE9E4; color: var(--clay); border: 1px solid #F0C9BD; }
 
+    /* ===== Kelola (tabel) ===== */
+    .toolbar { display: flex; gap: 10px; align-items: center; margin-bottom: 12px; flex-wrap: wrap; }
+    .toolbar .search-box { flex: 1; min-width: 200px; }
+    .toolbar select { flex: 0 0 180px; width: auto; }
+    @media (max-width: 720px) { .toolbar select { flex: 1 1 45%; } }
+
+    .result-info {
+      font-size: 13px; color: var(--emerald-dark); background: var(--gold-soft);
+      border-radius: 10px; padding: 9px 14px; margin-bottom: 16px; font-weight: 600;
+    }
+    .table-wrap { overflow-x: auto; border-radius: 12px; border: 1px solid var(--sage); }
+    .table-wrap::-webkit-scrollbar { height: 9px; }
+    .table-wrap::-webkit-scrollbar-track { background: var(--sage); border-radius: 10px; }
+    .table-wrap::-webkit-scrollbar-thumb { background: var(--emerald); border-radius: 10px; }
+    table { width: 100%; border-collapse: collapse; font-size: 13.5px; min-width: 1050px; }
+    thead th {
+      background: var(--emerald); color: var(--white); text-align: left;
+      padding: 12px 14px; font-weight: 700; white-space: nowrap;
+    }
+    tbody td { padding: 11px 14px; border-bottom: 1px solid var(--sage); vertical-align: top; }
+    tbody tr:nth-child(even) { background: #FBFAF5; }
+    tbody tr:hover { background: var(--gold-soft); }
+    .badge {
+      display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 11.5px;
+      font-weight: 700; background: #E3F1E9; color: var(--emerald-dark); white-space: nowrap;
+    }
+    .row-actions { display: flex; gap: 6px; white-space: nowrap; }
+    .edit-btn, .del-btn {
+      background: none; border-radius: 8px; padding: 5px 11px; font-size: 12px;
+      cursor: pointer; font-weight: 700; font-family: inherit;
+    }
+    .edit-btn { border: 1px solid var(--emerald); color: var(--emerald); }
+    .edit-btn:hover { background: var(--emerald); color: var(--white); }
+    .del-btn { border: 1px solid var(--clay); color: var(--clay); }
+    .del-btn:hover { background: var(--clay); color: var(--white); }
+    .del-btn:disabled, .edit-btn:disabled { opacity: 0.5; cursor: wait; }
+
+    .empty-state { text-align: center; padding: 50px 20px; color: var(--ink-soft); }
+    .empty-state .icon { font-size: 34px; margin-bottom: 10px; }
+
+    .pagination-wrap {
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      padding: 20px 4px 4px; flex-wrap: wrap; border-top: 1px solid var(--sage); margin-top: 16px;
+    }
+    .page-btn {
+      min-width: 40px; height: 40px; padding: 0 12px; border-radius: 10px;
+      border: 1.5px solid var(--sage); background: var(--white); color: var(--ink);
+      font-weight: 700; font-size: 14px; font-family: inherit; cursor: pointer;
+    }
+    .page-btn:hover:not(:disabled):not(.active) { border-color: var(--emerald); background: var(--gold-soft); }
+    .page-btn.active { background: var(--emerald-dark); border-color: var(--emerald-dark); color: var(--white); }
+    .page-btn:disabled { color: #C7CFC9; cursor: not-allowed; }
+    .page-ellipsis { min-width: 24px; text-align: center; color: var(--ink-soft); font-weight: 700; }
+
     /* ===== Halaman akses admin ===== */
     .login-card {
-      max-width: 570px;
-      margin: 34px auto 20px;
-      background: var(--white);
-      border-radius: 18px;
-      box-shadow: 0 18px 40px rgba(10, 42, 68, 0.10);
-      padding: 42px 42px 48px;
-      text-align: center;
+      max-width: 570px; margin: 34px auto 20px; background: var(--white);
+      border-radius: 18px; box-shadow: 0 18px 40px rgba(10, 42, 68, 0.10);
+      padding: 42px 42px 48px; text-align: center;
     }
     .login-card .section-title { margin-bottom: 8px; }
     .login-card .section-heading { margin-bottom: 36px; font-size: 22px; }
     .login-card input[type=password] {
-      background: var(--white);
-      padding: 16px 18px;
-      font-size: 15.5px;
-      border-radius: 12px;
-      margin-bottom: 18px;
+      background: var(--white); padding: 16px 18px; font-size: 15.5px;
+      border-radius: 12px; margin-bottom: 18px;
     }
     .btn-block { width: 100%; padding: 17px; border-radius: 12px; font-size: 16px; }
     @media (max-width: 640px) {
@@ -168,7 +226,7 @@
   <header class="top">
     <div class="brand-eyebrow">DPD Wahdah Islamiyah Makassar</div>
     <h1>Halaman Admin Jadwal Taklim</h1>
-    <p>Input jadwal taklim wilayah Makassar, Gowa &amp; Maros</p>
+    <p>Input, edit, dan hapus jadwal taklim wilayah Makassar, Gowa &amp; Maros</p>
     <svg class="arch-divider" viewBox="0 0 300 50" preserveAspectRatio="none">
       <path fill="#FAF6EC" d="M0,50 V30 Q4,10 50,8 Q96,10 100,30 Q104,10 150,8 Q196,10 200,30 Q204,10 250,8 Q296,10 300,30 V50 Z"/>
     </svg>
@@ -188,90 +246,121 @@
       </div>
     </div>
 
-    <!-- ============ HALAMAN INPUT (tampil setelah login) ============ -->
+    <!-- ============ HALAMAN ADMIN (tampil setelah login) ============ -->
     <div id="adminView" style="display:none">
-    <div class="top-actions">
-      <a class="link-btn" href="index.html">← Lihat Jadwal</a>
-      <button type="button" class="link-btn" id="logoutBtn" style="cursor:pointer;font-family:inherit">Keluar</button>
-    </div>
+      <div class="top-actions">
+        <a class="link-btn" href="index.html">← Lihat Jadwal</a>
+        <button type="button" class="link-btn" id="logoutBtn">Keluar</button>
+      </div>
 
-    <div class="card">
-      <div class="section-title">Form Input</div>
-      <h2 class="section-heading">Jadwal Taklim Baru</h2>
+      <div class="tabs">
+        <button type="button" class="tab-btn active" id="tabInput" onclick="switchTab('input')">＋ Input Jadwal</button>
+        <button type="button" class="tab-btn" id="tabManage" onclick="switchTab('manage')">✎ Kelola Jadwal</button>
+      </div>
 
       <div class="alert" id="alertBox"></div>
 
-      <form id="jadwalForm" autocomplete="off" novalidate>
-        <div class="form-grid">
-          <div>
-            <label for="pemateri">Pemateri <span class="req">*</span></label>
-            <input type="text" id="pemateri" list="pemateriList" placeholder="Nama ustadz / pemateri">
-            <datalist id="pemateriList"></datalist>
-          </div>
-          <div>
-            <label for="nohp">No HP <span class="hint">(opsional)</span></label>
-            <input type="tel" id="nohp" placeholder="08xxxxxxxxxx" inputmode="tel">
-          </div>
+      <!-- ========== PANEL: INPUT / EDIT ========== -->
+      <div id="panelInput">
+        <div class="card narrow">
+          <div class="section-title" id="formEyebrow">Form Input</div>
+          <h2 class="section-heading" id="formHeading">Jadwal Taklim Baru</h2>
 
-          <div class="full">
-            <label for="materi">Materi <span class="req">*</span></label>
-            <input type="text" id="materi" placeholder="Contoh: Kitab Tauhid">
-          </div>
+          <div class="edit-banner" id="editBanner"></div>
 
-          <div class="full">
-            <label for="tempat">Tempat <span class="req">*</span></label>
-            <input type="text" id="tempat" placeholder="Contoh: Masjid Al-Markaz">
-          </div>
+          <form id="jadwalForm" autocomplete="off" novalidate>
+            <div class="form-grid">
+              <div>
+                <label for="pemateri">Pemateri <span class="req">*</span></label>
+                <input type="text" id="pemateri" list="pemateriList" placeholder="Nama ustadz / pemateri">
+                <datalist id="pemateriList"></datalist>
+              </div>
+              <div>
+                <label for="nohp">No HP <span class="hint">(opsional)</span></label>
+                <input type="tel" id="nohp" placeholder="08xxxxxxxxxx" inputmode="tel">
+              </div>
 
-          <div>
-            <label for="hari">Hari <span class="req">*</span></label>
-            <select id="hari">
-              <option value="">Pilih hari</option>
-              <option>Senin</option>
-              <option>Selasa</option>
-              <option>Rabu</option>
-              <option>Kamis</option>
-              <option>Jumat</option>
-              <option>Sabtu</option>
-              <option>Ahad</option>
-            </select>
-          </div>
-          <div>
-            <label for="waktu">Waktu <span class="req">*</span></label>
-            <input type="text" id="waktu" placeholder="Contoh: Ba'da Maghrib / 16.00 - 17.30">
-          </div>
+              <div class="full">
+                <label for="materi">Materi <span class="req">*</span></label>
+                <input type="text" id="materi" placeholder="Contoh: Kitab Tauhid">
+              </div>
 
-          <div>
-            <label for="kota">Kota <span class="req">*</span></label>
-            <select id="kota">
-              <option value="">Pilih kota</option>
-            </select>
-          </div>
-          <div>
-            <label for="kecamatan">Kecamatan <span class="req">*</span></label>
-            <select id="kecamatan" disabled>
-              <option value="">Pilih kota terlebih dahulu</option>
-            </select>
-          </div>
+              <div class="full">
+                <label for="tempat">Tempat <span class="req">*</span></label>
+                <input type="text" id="tempat" placeholder="Contoh: Masjid Al-Markaz">
+              </div>
 
-          <div class="full">
-            <label for="status">Status <span class="hint">(opsional)</span></label>
-            <input type="text" id="status" list="statusList" placeholder="Contoh: Aktif">
-            <datalist id="statusList"></datalist>
-          </div>
+              <div>
+                <label for="hari">Hari <span class="req">*</span></label>
+                <select id="hari">
+                  <option value="">Pilih hari</option>
+                  <option>Senin</option>
+                  <option>Selasa</option>
+                  <option>Rabu</option>
+                  <option>Kamis</option>
+                  <option>Jumat</option>
+                  <option>Sabtu</option>
+                  <option>Ahad</option>
+                </select>
+              </div>
+              <div>
+                <label for="waktu">Waktu <span class="req">*</span></label>
+                <input type="text" id="waktu" placeholder="Contoh: Ba'da Maghrib / 16.00 - 17.30">
+              </div>
 
-          <div class="full">
-            <label for="keterangan">Keterangan <span class="hint">(opsional)</span></label>
-            <textarea id="keterangan" placeholder="Catatan tambahan, mis. khusus ikhwan / akhwat, mingguan, dll."></textarea>
-          </div>
+              <div>
+                <label for="kota">Kota <span class="req">*</span></label>
+                <select id="kota">
+                  <option value="">Pilih kota</option>
+                </select>
+              </div>
+              <div>
+                <label for="kecamatan">Kecamatan <span class="req">*</span></label>
+                <select id="kecamatan" disabled>
+                  <option value="">Pilih kota terlebih dahulu</option>
+                </select>
+              </div>
+
+              <div class="full">
+                <label for="status">Status <span class="hint">(opsional)</span></label>
+                <input type="text" id="status" list="statusList" placeholder="Contoh: Aktif">
+                <datalist id="statusList"></datalist>
+              </div>
+
+              <div class="full">
+                <label for="keterangan">Keterangan <span class="hint">(opsional)</span></label>
+                <textarea id="keterangan" placeholder="Catatan tambahan, mis. khusus ikhwan / akhwat, mingguan, dll."></textarea>
+              </div>
+            </div>
+
+            <div class="actions">
+              <button type="submit" class="btn-primary" id="submitBtn">Simpan Jadwal</button>
+              <button type="button" class="btn-secondary" id="resetBtn">Kosongkan Form</button>
+              <button type="button" class="btn-secondary" id="cancelEditBtn" style="display:none">Batal Edit</button>
+            </div>
+          </form>
         </div>
+      </div>
 
-        <div class="actions">
-          <button type="submit" class="btn-primary" id="submitBtn">Simpan Jadwal</button>
-          <button type="button" class="btn-secondary" id="resetBtn">Kosongkan Form</button>
+      <!-- ========== PANEL: KELOLA (EDIT & HAPUS) ========== -->
+      <div id="panelManage" style="display:none">
+        <div class="card">
+          <div class="section-title">Kelola Data</div>
+          <h2 class="section-heading">Edit &amp; Hapus Jadwal Taklim</h2>
+
+          <div class="toolbar">
+            <input type="text" class="search-box" id="manageSearch" placeholder="Cari pemateri, materi, tempat, hari, atau kecamatan..." style="width:auto">
+            <select id="manageKota">
+              <option value="">Semua Kota</option>
+            </select>
+            <button type="button" class="link-btn" id="manageRefresh">⟳ Muat Ulang</button>
+          </div>
+
+          <div class="result-info" id="manageInfo"></div>
+          <div id="manageTable"></div>
+          <div class="pagination-wrap" id="managePagination"></div>
         </div>
-      </form>
-    </div>
+      </div>
     </div>
   </main>
 
@@ -282,11 +371,26 @@
     const API_URL = 'https://script.google.com/macros/s/AKfycbztdgqqBExOsAhIDfqAjCQmoxhFsY368v5mZ9uhXHwvsiID4QC1K8DldH9Dx4SG9fZm/exec';
 
     const KOTA_LIST = ['Makassar', 'Gowa', 'Maros'];
+    const PAGE_SIZE = 50;
+
     let kecamatanByKota = {};
-    let pematerPhone = {};   // nama pemateri -> no hp (dari data yang sudah ada)
+    let pematerPhone = {};     // nama pemateri -> no hp (dari data yang sudah ada)
+    let editing = null;        // { rowIndex, check } saat mode edit
+    let manageData = null;     // cache data tab Kelola (null = perlu dimuat ulang)
+    let managePage = 1;
+    let currentPin = '';
+    let adminStarted = false;
 
     const $ = function (id) { return document.getElementById(id); };
 
+    function esc(val) {
+      if (val === undefined || val === null) return '';
+      const div = document.createElement('div');
+      div.textContent = val;
+      return div.innerHTML;
+    }
+
+    /* ================= ALERT ================= */
     function showAlert(type, msg) {
       const box = $('alertBox');
       box.className = 'alert show ' + type;
@@ -295,6 +399,7 @@
     }
     function hideAlert() { $('alertBox').className = 'alert'; }
 
+    /* ================= API ================= */
     function callApi(action, params) {
       const query = new URLSearchParams(Object.assign({ action: action }, params || {}));
       return fetch(API_URL + '?' + query.toString())
@@ -318,9 +423,24 @@
         .then(function (res) {
           if (!res.ok) throw new Error('HTTP ' + res.status);
           return res.json();
+        })
+        .then(function (res) {
+          if (res && res.error) throw new Error(res.message || 'Terjadi kesalahan pada server.');
+          return res;
         });
     }
 
+    /* Jika error karena password salah / sesi habis -> kembali ke halaman akses */
+    function handleAuthError(err) {
+      if (/password|PIN/i.test(err.message)) {
+        logout();
+        showLoginAlert('Password salah atau sesi berakhir. Silakan masuk kembali.');
+        return true;
+      }
+      return false;
+    }
+
+    /* ================= HELPER FORM ================= */
     function fillOptions(selectEl, items, placeholder) {
       selectEl.innerHTML = '';
       const ph = document.createElement('option');
@@ -345,14 +465,39 @@
       });
     }
 
-    function init() {
-      fillOptions($('kota'), KOTA_LIST, 'Pilih kota');
+    /* Set nilai <select>; jika nilai belum ada di opsi, tambahkan agar tidak hilang */
+    function setSelectValue(sel, val) {
+      if (!val) { sel.value = ''; return; }
+      let found = false;
+      Array.prototype.forEach.call(sel.options, function (o) { if (o.value === val) found = true; });
+      if (!found) {
+        const o = document.createElement('option');
+        o.value = val;
+        o.textContent = val;
+        sel.appendChild(o);
+      }
+      sel.value = val;
+    }
 
-      callApi('getKecamatanByKota')
-        .then(function (res) { kecamatanByKota = res; })
-        .catch(function (err) { showAlert('error', 'Gagal memuat daftar kecamatan: ' + err.message); });
+    function setKotaKecamatan(kota, kec) {
+      $('kota').value = kota || '';
+      if (!kota) {
+        fillOptions($('kecamatan'), [], 'Pilih kota terlebih dahulu');
+        $('kecamatan').disabled = true;
+        return;
+      }
+      fillOptions($('kecamatan'), kecamatanByKota[kota] || [], 'Pilih kecamatan');
+      $('kecamatan').disabled = false;
+      setSelectValue($('kecamatan'), kec || '');
+    }
 
-      // Saran otomatis (pemateri & status) dari data yang sudah ada
+    function resetForm() {
+      $('jadwalForm').reset();
+      setKotaKecamatan('', '');
+    }
+
+    /* ================= INIT DATA (setelah login) ================= */
+    function loadSuggestions() {
       callApi('getAllJadwalData', { kota: '' })
         .then(function (rows) {
           const pemateri = {}, status = {};
@@ -366,43 +511,99 @@
           fillDatalist('pemateriList', Object.keys(pemateri).sort());
           fillDatalist('statusList', Object.keys(status).sort());
         })
-        .catch(function () { /* saran bersifat opsional, abaikan error */ });
+        .catch(function () { /* saran bersifat opsional */ });
     }
 
+    function init() {
+      fillOptions($('kota'), KOTA_LIST, 'Pilih kota');
+      fillOptions($('manageKota'), KOTA_LIST, 'Semua Kota');
+
+      callApi('getKecamatanByKota')
+        .then(function (res) { kecamatanByKota = res; })
+        .catch(function (err) { showAlert('error', 'Gagal memuat daftar kecamatan: ' + err.message); });
+
+      loadSuggestions();
+    }
+
+    /* ================= TAB ================= */
+    function switchTab(name) {
+      const isInput = name === 'input';
+      $('panelInput').style.display = isInput ? 'block' : 'none';
+      $('panelManage').style.display = isInput ? 'none' : 'block';
+      $('tabInput').classList.toggle('active', isInput);
+      $('tabManage').classList.toggle('active', !isInput);
+      if (!isInput && manageData === null) loadManage();
+    }
+
+    /* ================= FORM: KOTA, PEMATERI, RESET ================= */
     $('kota').addEventListener('change', function () {
-      const kota = this.value;
-      const sel = $('kecamatan');
-      if (!kota) {
-        fillOptions(sel, [], 'Pilih kota terlebih dahulu');
-        sel.disabled = true;
-        return;
-      }
-      fillOptions(sel, kecamatanByKota[kota] || [], 'Pilih kecamatan');
-      sel.disabled = false;
+      setKotaKecamatan(this.value, '');
     });
 
-    // Isi otomatis No HP bila pemateri sudah pernah tercatat
     $('pemateri').addEventListener('change', function () {
       const hp = pematerPhone[this.value.trim()];
       if (hp && !$('nohp').value) $('nohp').value = hp;
     });
-
-    function resetForm() {
-      $('jadwalForm').reset();
-      fillOptions($('kecamatan'), [], 'Pilih kota terlebih dahulu');
-      $('kecamatan').disabled = true;
-    }
 
     $('resetBtn').addEventListener('click', function () {
       resetForm();
       hideAlert();
     });
 
+    /* ================= MODE EDIT ================= */
+    function enterEditMode(row) {
+      editing = {
+        rowIndex: row.rowIndex,
+        check: { 'NO': row['NO'], 'PEMATERI': row['PEMATERI'], 'MATERI': row['MATERI'] }
+      };
+
+      $('pemateri').value = (row['PEMATERI'] || '').toString();
+      $('nohp').value = (row['NO HP'] || '').toString();
+      $('materi').value = (row['MATERI'] || '').toString();
+      $('tempat').value = (row['TEMPAT'] || '').toString();
+      setSelectValue($('hari'), (row['HARI'] || '').toString().trim());
+      $('waktu').value = (row['WAKTU'] || '').toString();
+      $('keterangan').value = (row['KETERANGAN'] || '').toString();
+      $('status').value = (row['STATUS'] || '').toString();
+      setKotaKecamatan((row['KOTA'] || '').toString().trim(), (row['KECAMATAN'] || '').toString().trim());
+
+      $('formEyebrow').textContent = 'Form Edit';
+      $('formHeading').textContent = 'Edit Jadwal Taklim';
+      const banner = $('editBanner');
+      banner.textContent = 'Mengedit data No. ' + (row['NO'] === '' ? '(tanpa nomor)' : row['NO']) +
+        ' — ' + (row['PEMATERI'] || '') + ' · ' + (row['MATERI'] || '');
+      banner.className = 'edit-banner show';
+      $('submitBtn').textContent = 'Simpan Perubahan';
+      $('resetBtn').style.display = 'none';
+      $('cancelEditBtn').style.display = 'inline-block';
+
+      hideAlert();
+      switchTab('input');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function exitEditMode() {
+      editing = null;
+      resetForm();
+      $('formEyebrow').textContent = 'Form Input';
+      $('formHeading').textContent = 'Jadwal Taklim Baru';
+      $('editBanner').className = 'edit-banner';
+      $('submitBtn').textContent = 'Simpan Jadwal';
+      $('resetBtn').style.display = 'inline-block';
+      $('cancelEditBtn').style.display = 'none';
+    }
+
+    $('cancelEditBtn').addEventListener('click', function () {
+      exitEditMode();
+      hideAlert();
+      switchTab('manage');
+    });
+
+    /* ================= SUBMIT (TAMBAH / SIMPAN PERUBAHAN) ================= */
     $('jadwalForm').addEventListener('submit', function (e) {
       e.preventDefault();
       hideAlert();
 
-      const pin = currentPin;
       const data = {
         'PEMATERI': $('pemateri').value.trim(),
         'NO HP': $('nohp').value.trim(),
@@ -423,45 +624,210 @@
         }
       }
 
+      const isEdit = !!editing;
       const btn = $('submitBtn');
+      const idleText = isEdit ? 'Simpan Perubahan' : 'Simpan Jadwal';
       btn.disabled = true;
       btn.textContent = 'Menyimpan...';
 
-      postApi({ action: 'addJadwal', pin: pin, data: data })
-        .then(function (res) {
-          if (res && res.error) throw new Error(res.message || 'Gagal menyimpan.');
-          try { sessionStorage.setItem('adminPin', pin); } catch (e) {}
-          showAlert('success', 'Jadwal berhasil disimpan (No. ' + res.no + ').');
+      const payload = isEdit
+        ? { action: 'updateJadwal', pin: currentPin, rowIndex: editing.rowIndex, check: editing.check, data: data }
+        : { action: 'addJadwal', pin: currentPin, data: data };
 
-          // simpan saran baru
+      postApi(payload)
+        .then(function (res) {
+          manageData = null; // data tab Kelola perlu dimuat ulang
           if (data['PEMATERI'] && data['NO HP']) pematerPhone[data['PEMATERI']] = data['NO HP'];
 
-          // Kosongkan form, tapi pertahankan kota & kecamatan agar input berantai lebih cepat
-          const kota = data['KOTA'], kec = data['KECAMATAN'];
-          resetForm();
-          $('kota').value = kota;
-          fillOptions($('kecamatan'), kecamatanByKota[kota] || [], 'Pilih kecamatan');
-          $('kecamatan').disabled = false;
-          $('kecamatan').value = kec;
+          if (isEdit) {
+            exitEditMode();
+            switchTab('manage');
+            showAlert('success', 'Perubahan berhasil disimpan.');
+          } else {
+            showAlert('success', 'Jadwal berhasil disimpan (No. ' + res.no + ').');
+            // Pertahankan kota & kecamatan agar input beruntun lebih cepat
+            const kota = data['KOTA'], kec = data['KECAMATAN'];
+            resetForm();
+            setKotaKecamatan(kota, kec);
+          }
         })
         .catch(function (err) {
-          if (/PIN|password/i.test(err.message)) {
-            logout();
-            showLoginAlert('Password salah atau sesi berakhir. Silakan masuk kembali.');
-            return;
-          }
+          if (handleAuthError(err)) return;
           showAlert('error', 'Gagal menyimpan: ' + err.message);
         })
         .then(function () {
           btn.disabled = false;
-          btn.textContent = 'Simpan Jadwal';
+          btn.textContent = editing ? 'Simpan Perubahan' : 'Simpan Jadwal';
         });
     });
 
-    /* ================= AKSES ADMIN (LOGIN) ================= */
-    let currentPin = '';
-    let adminStarted = false;
+    /* ================= KELOLA: MUAT, FILTER, TABEL ================= */
+    function loadManage() {
+      $('manageTable').innerHTML = '<div class="empty-state"><div class="icon">⏳</div>Memuat data...</div>';
+      $('manageInfo').textContent = '';
+      $('managePagination').innerHTML = '';
 
+      callApi('getAllJadwalData', { kota: '' })
+        .then(function (rows) {
+          manageData = rows;
+          managePage = 1;
+          renderManage();
+        })
+        .catch(function (err) {
+          $('manageTable').innerHTML =
+            '<div class="empty-state"><div class="icon">⚠️</div>Gagal memuat data: ' + esc(err.message) + '</div>';
+        });
+    }
+
+    function getManageFiltered() {
+      const term = ($('manageSearch').value || '').trim().toLowerCase();
+      const kota = $('manageKota').value;
+      return (manageData || []).filter(function (row) {
+        if (kota && (row['KOTA'] || '').toString().trim() !== kota) return false;
+        if (!term) return true;
+        return ['PEMATERI', 'MATERI', 'TEMPAT', 'HARI', 'KECAMATAN'].some(function (k) {
+          return (row[k] || '').toString().toLowerCase().indexOf(term) > -1;
+        });
+      });
+    }
+
+    function renderManage() {
+      if (manageData === null) return;
+      const filtered = getManageFiltered();
+      const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
+      if (managePage > totalPages) managePage = totalPages;
+      if (managePage < 1) managePage = 1;
+
+      const startIdx = (managePage - 1) * PAGE_SIZE;
+      const pageData = filtered.slice(startIdx, startIdx + PAGE_SIZE);
+
+      $('manageInfo').innerHTML = filtered.length
+        ? 'Menampilkan baris <strong>' + (startIdx + 1) + '–' + (startIdx + pageData.length) +
+          '</strong> dari <strong>' + filtered.length + '</strong> data (total keseluruhan: ' + manageData.length + ').'
+        : 'Menampilkan <strong>0</strong> data (total keseluruhan: ' + manageData.length + ').';
+
+      if (!filtered.length) {
+        $('manageTable').innerHTML = '<div class="empty-state"><div class="icon">📭</div>Tidak ada jadwal taklim yang cocok.</div>';
+        $('managePagination').innerHTML = '';
+        return;
+      }
+
+      let rows = '';
+      pageData.forEach(function (row) {
+        rows += '<tr>' +
+          '<td>' + esc(row['NO']) + '</td>' +
+          '<td>' + esc(row['PEMATERI']) + '</td>' +
+          '<td>' + esc(row['MATERI']) + '</td>' +
+          '<td>' + esc(row['TEMPAT']) + '</td>' +
+          '<td>' + esc(row['HARI']) + '</td>' +
+          '<td>' + esc(row['WAKTU']) + '</td>' +
+          '<td>' + esc(row['KOTA']) + '</td>' +
+          '<td>' + esc(row['KECAMATAN']) + '</td>' +
+          '<td>' + (row['STATUS'] ? '<span class="badge">' + esc(row['STATUS']) + '</span>' : '') + '</td>' +
+          '<td><div class="row-actions">' +
+            '<button type="button" class="edit-btn" onclick="onEditClick(' + row.rowIndex + ')">Edit</button>' +
+            '<button type="button" class="del-btn" onclick="onDeleteClick(' + row.rowIndex + ', this)">Hapus</button>' +
+          '</div></td>' +
+          '</tr>';
+      });
+
+      $('manageTable').innerHTML =
+        '<div class="table-wrap"><table><thead><tr>' +
+        '<th>No</th><th>Pemateri</th><th>Materi</th><th>Tempat</th><th>Hari</th>' +
+        '<th>Waktu</th><th>Kota</th><th>Kecamatan</th><th>Status</th><th>Aksi</th>' +
+        '</tr></thead><tbody>' + rows + '</tbody></table></div>';
+
+      renderManagePagination(totalPages);
+    }
+
+    function findRow(rowIndex) {
+      return (manageData || []).filter(function (r) { return r.rowIndex === rowIndex; })[0];
+    }
+
+    function onEditClick(rowIndex) {
+      const row = findRow(rowIndex);
+      if (row) enterEditMode(row);
+    }
+
+    function onDeleteClick(rowIndex, btn) {
+      const row = findRow(rowIndex);
+      if (!row) return;
+
+      const label = (row['PEMATERI'] || '') + ' — ' + (row['MATERI'] || '') +
+        '\n' + (row['HARI'] || '') + ', ' + (row['KECAMATAN'] || '') + ' (' + (row['KOTA'] || '') + ')';
+      if (!confirm('Yakin ingin menghapus jadwal ini?\n\n' + label + '\n\nTindakan ini tidak dapat dibatalkan.')) return;
+
+      hideAlert();
+      btn.disabled = true;
+      btn.textContent = 'Menghapus...';
+
+      postApi({
+        action: 'deleteJadwal',
+        pin: currentPin,
+        rowIndex: row.rowIndex,
+        check: { 'NO': row['NO'], 'PEMATERI': row['PEMATERI'], 'MATERI': row['MATERI'] }
+      })
+        .then(function () {
+          showAlert('success', 'Jadwal berhasil dihapus.');
+          loadManage();
+        })
+        .catch(function (err) {
+          btn.disabled = false;
+          btn.textContent = 'Hapus';
+          if (handleAuthError(err)) return;
+          showAlert('error', 'Gagal menghapus: ' + err.message);
+          // data di sheet kemungkinan berubah; muat ulang agar sinkron
+          if (/berubah|tidak ditemukan/i.test(err.message)) loadManage();
+        });
+    }
+
+    $('manageSearch').addEventListener('input', function () { managePage = 1; renderManage(); });
+    $('manageKota').addEventListener('change', function () { managePage = 1; renderManage(); });
+    $('manageRefresh').addEventListener('click', function () { loadManage(); });
+
+    /* ================= PAGINATION KELOLA ================= */
+    function getPageNumbers(current, total) {
+      const delta = 2, range = [], out = [];
+      let last;
+      for (let i = 1; i <= total; i++) {
+        if (i === 1 || i === total || (i >= current - delta && i <= current + delta)) range.push(i);
+      }
+      range.forEach(function (i) {
+        if (last) {
+          if (i - last === 2) out.push(last + 1);
+          else if (i - last > 2) out.push('...');
+        }
+        out.push(i);
+        last = i;
+      });
+      return out;
+    }
+
+    function renderManagePagination(totalPages) {
+      const wrap = $('managePagination');
+      if (totalPages <= 1) { wrap.innerHTML = ''; return; }
+
+      let html = '<button type="button" class="page-btn" ' + (managePage === 1 ? 'disabled' : '') +
+        ' onclick="goManagePage(' + (managePage - 1) + ')" aria-label="Halaman sebelumnya">&#8249;</button>';
+
+      getPageNumbers(managePage, totalPages).forEach(function (p) {
+        if (p === '...') html += '<span class="page-ellipsis">…</span>';
+        else html += '<button type="button" class="page-btn' + (p === managePage ? ' active' : '') +
+          '" onclick="goManagePage(' + p + ')">' + p + '</button>';
+      });
+
+      html += '<button type="button" class="page-btn" ' + (managePage === totalPages ? 'disabled' : '') +
+        ' onclick="goManagePage(' + (managePage + 1) + ')" aria-label="Halaman berikutnya">&#8250;</button>';
+      wrap.innerHTML = html;
+    }
+
+    function goManagePage(p) {
+      managePage = p;
+      renderManage();
+      $('manageTable').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    /* ================= AKSES ADMIN (LOGIN) ================= */
     function showLoginAlert(msg) {
       const box = $('loginAlert');
       box.className = 'alert error show';
@@ -483,16 +849,16 @@
 
     function logout() {
       currentPin = '';
+      manageData = null;
       try { sessionStorage.removeItem('adminPin'); } catch (e) {}
+      if (editing) exitEditMode();
+      switchTab('input');
       hideAlert();
       showLogin();
     }
 
     function verifyPin(pin) {
-      return postApi({ action: 'verifyPin', pin: pin }).then(function (res) {
-        if (res && res.error) throw new Error(res.message || 'Password salah.');
-        return true;
-      });
+      return postApi({ action: 'verifyPin', pin: pin });
     }
 
     $('loginForm').addEventListener('submit', function (e) {
